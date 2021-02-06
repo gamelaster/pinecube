@@ -1,0 +1,1 @@
+./busybox-arm tcpsvd -vE 0.0.0.0 21 ./busybox-arm ftpd -vwAa . > /dev/null 2>&1 &
