@@ -275,5 +275,7 @@ out:
 void main()
 {
 	VideoEncCreate(VENC_CODEC_H264);
+	// VideoEncSetParameter(g.pVideoEnc, VENC_IndexParamH264Param, &g.h264Param);
+	
 }
 #endif

@@ -92,13 +92,32 @@ int EncAdapterInitialize(void) {
 	return 0;
 }
 
-int VideoEncCreate(int type)
+/*
+   S3 H264 Capabilities:
+	DCD 0x1681              ; ICVersion
+	DCD 1                   ; color_space_support
+	DCB 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1
+	DCB 0, 0, 0, 0, 0x10, 0, 0, 0, 0x10, 0
+	DCB 0                   ; field_23
+*/
+
+void H264EncOpen()
+{
+	// this function in original driver allocatest really big struct
+	// also, the library have struct of supported h264 capabilities
+	// Looks like nothing important happens here, but this can change later...
+}
+
+
+int* VideoEncCreate(int type)
 {
 	if (EncAdapterInitialize() != 0) {
 		fprintf(stderr, "Can't setup video engine.\n");
 		return NULL;
 	}
-	printf("VE Version: %X\n", *(unsigned short*)(veMemoryMap + 0xF2));
-	// 1681 VE version
+	printf("VE Version: %08X\n", *(unsigned int*)(veMemoryMap + 0xF0));
+	H264EncOpen();
+
 	return 0;
 }
+
