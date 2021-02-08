@@ -20,3 +20,10 @@ Firstly, copy `busybox-arm` and `startftp.sh` into SD Card. Then plug-in it to P
 source build/envsetup.sh
 lunch # select [1] here
 ````
+
+## Disable printk logging
+(Sometimes there is division by zero in kernel, and it happens periodically so it's quite annoying)
+
+```sh
+echo 1 > /proc/sys/kernel/printk
+```
