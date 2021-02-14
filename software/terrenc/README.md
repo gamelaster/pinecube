@@ -28,3 +28,12 @@ And there are two choices:
 
 - [ ] Convert this library to kernel module with userspace library for apps
 - [ ] Port the code to cedrus mainline kernel module
+
+# Reversed parts
+
+*TODO: Add other already reversed functions*
+- H264Init = 🔶
+  - IspCreate = ✅
+  - SetIspBaseAddress = ✅
+  - h264_check_compatibility = ✅
+  - H264InitMemory = 🔶
