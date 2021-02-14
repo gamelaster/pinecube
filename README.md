@@ -1,6 +1,10 @@
 # PineCube
 Notes, software and everything related to PineCube (mostly Video Encoding stuff)
 
+# Terrenc
+
+You're probably looking for [Terrenc](https://github.com/gamelaster/pinecube/tree/main/software/terrenc), open-source encoder for Allwinner S3
+
 # CamDroid notes
 ## Turning off testing software (dragonboard)
 ```sh
