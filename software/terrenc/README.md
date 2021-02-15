@@ -31,6 +31,9 @@ And there are two choices:
 
 # Reversed parts
 
+- MR - Modifies registers
+- NI - Not Integrated
+
 - VideoEncCreate = 🔶
   - EncAdapterInitialize = 🔶
     - VeInitialize = ✅
@@ -46,4 +49,14 @@ And there are two choices:
     - IspCreate = ✅
     - SetIspBaseAddress = ✅
     - h264_check_compatibility = ✅
-    - H264InitMemory = 🔶
+    - H264InitMemory = 🔶 (90%)
+    - h264_init_regInfo = 🔶*TODO: MR
+    - h264_init_rc_quene = 🔶
+      - rc_init_sequence = 🔶
+    - h264_init_Poc = 🔶
+    - h264_init_sps_pps = 🔶*MR
+      - EncAdapterEnableEncoder = 🔶*MR *NI
+      - InitSPS = 🔶*MR *NI
+        - PutBits = 🔶 *MR *NI
+          - CheckRegValue_h264 = 🔶
+      - InitPPS = ❌
