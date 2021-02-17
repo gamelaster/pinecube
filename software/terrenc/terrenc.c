@@ -94,18 +94,46 @@ int EncAdapterInitialize(void) {
 
 /*
    S3 H264 Capabilities:
-	DCD 0x1681              ; ICVersion
-	DCD 1                   ; color_space_support
-	DCB 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1
-	DCB 0, 0, 0, 0, 0x10, 0, 0, 0, 0x10, 0
-	DCB 0                   ; field_23
+	0x1681              ; ICVersion
+	1                   ; color_space_support
+	1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1
+	0, 0, 0
+	0x1000              ; maxSupportedDstWidth
+	0x1000              ; maxSupportedDstHeight
 */
+
+struct {
+	VencH264ProfileLevel profileLevel;
+	VENC_CODING_MODE codingMode;
+	uint32_t frameRate; // * 1000
+	uint32_t bitrate;
+	uint32_t maxKeyInterval;
+	VencQPRange qpRange;
+} h264_encoder_singleton;
 
 void H264EncOpen()
 {
 	// this function in original driver allocatest really big struct
 	// also, the library have struct of supported h264 capabilities
 	// Looks like nothing important happens here, but this can change later...
+}
+
+uint64_t H264EncSetParamter(void* h264_encoder, enum VENC_INDEXTYPE parameterType, void* parameterData)
+{
+	if (parameterType == VENC_IndexParamH264Param) {
+		VencH264Param* param = (VencH264Param*)parameterData;
+		h264_encoder_singleton.profileLevel = param->sProfileLevel;
+		h264_encoder_singleton.codingMode = param->nCodingMode;
+		h264_encoder_singleton.frameRate = param->nFramerate * 1000;
+		h264_encoder_singleton.bitrate = param->nBitrate;
+		h264_encoder_singleton.maxKeyInterval = param->nMaxKeyInterval;
+		h264_encoder_singleton.qpRange = param->sQPRange;
+		if (param->sProfileLevel.nProfile == VENC_H264ProfileBaseline || param->bEntropyCodingCABAC == 0) { // 0 = CAVLC, 1 = CABAC
+			// Returns VENC?IndexParamBitRate
+			// TODO: h264_encoder.field_6FD = 0;
+		}
+	}
+	return 0;
 }
 
 
@@ -117,7 +145,11 @@ int* VideoEncCreate(int type)
 	}
 	printf("VE Version: %08X\n", *(unsigned int*)(veMemoryMap + 0xF0));
 	H264EncOpen();
-
 	return 0;
 }
 
+int VideoEncSetParameter(void* encoder, enum VENC_INDEXTYPE parameterType, void* parameterData)
+{
+	H264EncSetParamter(NULL, parameterType, parameterData);
+	return 0;
+}

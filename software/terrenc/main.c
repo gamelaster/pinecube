@@ -272,10 +272,12 @@ out:
 	return 0;
 }
 #else
-void main()
+int main()
 {
 	VideoEncCreate(VENC_CODEC_H264);
-	// VideoEncSetParameter(g.pVideoEnc, VENC_IndexParamH264Param, &g.h264Param);
-	
+	// At the moment, video enc instance is global
+	VideoEncSetParameter(NULL, VENC_IndexParamH264Param, NULL);
+	//VideoEncInit(NULL, &g.baseConfig);
+	return 0;
 }
 #endif
