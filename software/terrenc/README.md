@@ -28,3 +28,39 @@ And there are two choices:
 
 - [ ] Convert this library to kernel module with userspace library for apps
 - [ ] Port the code to cedrus mainline kernel module
+
+# Reversed parts
+
+- MR - Modifies registers
+- NI - Not Integrated
+
+- VideoEncCreate = 🔶
+  - EncAdapterInitialize = 🔶
+    - VeInitialize = ✅
+      - VeReset = ✅
+    - MemAdapterOpen = ❌
+  - EncAdapterGetICVersion = ✅
+  - VencoderDeviceCreate = ✅
+  - Encoder->Open (H264Open) = ✅
+- VideoEncSetParameter = ✅🔶
+- VideoEncInit = 🔶
+  - FrameBufferManagerCreate = ✅
+  - Encoder->Init (H264Init) = 🔶
+    - IspCreate = ✅
+    - SetIspBaseAddress = ✅
+    - h264_check_compatibility = ✅
+    - H264InitMemory = 🔶 (90%)
+    - h264_init_regInfo = 🔶*TODO: MR
+    - h264_init_rc_quene = 🔶
+      - rc_init_sequence = 🔶
+    - h264_init_Poc = 🔶
+    - h264_init_sps_pps = 🔶*MR
+      - EncAdapterEnableEncoder = 🔶*MR *NI
+      - InitSPS = 🔶*MR *NI
+        - PutBits = 🔶 *MR *NI
+          - CheckRegValue_h264 = 🔶
+        - sub_A700 = ❌ *MR *NI
+        - initVUI = ❌ *MR *NI
+        - RbspTrailingBits = ❌ *MR *NI
+      - InitPPS = 🔶 *MR *NI
+        - PutVlcS = ❌ *MR *NI
