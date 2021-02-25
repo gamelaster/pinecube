@@ -57,10 +57,10 @@ And there are two choices:
     - h264_init_sps_pps = 🔶*MR
       - EncAdapterEnableEncoder = 🔶*MR *NI
       - InitSPS = 🔶*MR *NI
-        - PutBits = 🔶 *MR *NI
-          - CheckRegValue_h264 = 🔶
-        - sub_A700 = ❌ *MR *NI
+        - PutBits = ✅ *MR
+          - CheckRegValue_h264 = ✅
+        - PutUnsignedExponential = ✅ *MR
         - initVUI = ❌ *MR *NI
-        - RbspTrailingBits = ❌ *MR *NI
+        - RbspTrailingBits = ✅ *MR
       - InitPPS = 🔶 *MR *NI
         - PutVlcS = ❌ *MR *NI
