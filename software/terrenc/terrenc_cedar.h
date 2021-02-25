@@ -96,5 +96,38 @@ typedef struct VencH264Param
 	VENC_CODING_MODE        nCodingMode;
 }VencH264Param;
 
+typedef enum VENC_PIXEL_FMT
+{
+	VENC_PIXEL_YUV420SP,
+    VENC_PIXEL_YVU420SP,
+    VENC_PIXEL_YUV420P,
+    VENC_PIXEL_YVU420P,
+	VENC_PIXEL_YUV422SP,
+    VENC_PIXEL_YVU422SP,
+    VENC_PIXEL_YUV422P,
+    VENC_PIXEL_YVU422P,
+	VENC_PIXEL_YUYV422,
+	VENC_PIXEL_UYVY422,
+	VENC_PIXEL_YVYU422,
+	VENC_PIXEL_VYUY422,
+	VENC_PIXEL_ARGB,
+    VENC_PIXEL_RGBA,
+    VENC_PIXEL_ABGR,
+    VENC_PIXEL_BGRA,
+    VENC_PIXEL_TILE_32X32,
+    VENC_PIXEL_TILE_128X32,
+}VENC_PIXEL_FMT;
+
+
+typedef struct VencBaseConfig
+{
+	unsigned int		nInputWidth;
+	unsigned int		nInputHeight;
+	unsigned int		nDstWidth;
+	unsigned int		nDstHeight;
+	unsigned int        nStride;
+	VENC_PIXEL_FMT  	eInputFormat;
+}VencBaseConfig;
+
 
 #endif

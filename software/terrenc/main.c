@@ -275,9 +275,31 @@ out:
 int main()
 {
 	VideoEncCreate(VENC_CODEC_H264);
+
+	VencH264Param h264Param;
+	memset(&h264Param, 0x00, sizeof(VencH264Param));
+	h264Param.sProfileLevel.nProfile = VENC_H264ProfileMain;
+	h264Param.sProfileLevel.nLevel = VENC_H264Level31;
+	h264Param.bEntropyCodingCABAC = 1;	///* 0:CAVLC 1:CABAC*/
+	h264Param.sQPRange.nMinqp = 10;
+	h264Param.sQPRange.nMaxqp = 40;
+	h264Param.nFramerate = 25; /* fps */
+	h264Param.nBitrate = 4*1280*720;
+	h264Param.nMaxKeyInterval = h264Param.nFramerate / 2;
+	h264Param.nCodingMode = VENC_FIELD_CODING;	//VENC_FRAME_CODING;
+
 	// At the moment, video enc instance is global
-	VideoEncSetParameter(NULL, VENC_IndexParamH264Param, NULL);
-	//VideoEncInit(NULL, &g.baseConfig);
+	VideoEncSetParameter(NULL, VENC_IndexParamH264Param, &h264Param);
+
+	VencBaseConfig baseConfig;
+	memset(&baseConfig, 0x00, sizeof(VencBaseConfig));
+	baseConfig.nInputWidth= 1280;
+	baseConfig.nInputHeight = 720;
+	baseConfig.nStride = 1280;
+	baseConfig.nDstWidth = 1280;
+	baseConfig.nDstHeight = 720;
+	baseConfig.eInputFormat = VENC_PIXEL_YUV420SP;
+	VideoEncInit(NULL, &baseConfig);
 	return 0;
 }
 #endif
