@@ -62,5 +62,5 @@ And there are two choices:
         - PutUnsignedExponential = ✅ *MR
         - initVUI = ❌ *MR *NI
         - RbspTrailingBits = ✅ *MR
-      - InitPPS = 🔶 *MR *NI
-        - PutVlcS = ❌ *MR *NI
+      - InitPPS = 🔶 *MR
+        - PutVlcSe = ✅ *MR
