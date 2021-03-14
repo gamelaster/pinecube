@@ -81,6 +81,7 @@ And there are two choices:
   - H264EncEncode = 🔶
     - EncAdapterResetEncoder = ❌
       - VeResetEncoder = ❌ *MR *NI
+    - EncAdapterEnableEncoder = ❌ (TODO)
     - insert_p_skip = ❌ (TODO)
     - getPoc = ❌ (TODO)
     - switch_T_SVC_QP = ❌ (TODO)
