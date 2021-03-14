@@ -78,6 +78,14 @@ And there are two choices:
 - VideoEncodeOneFrame = 🔶
   - GetInputBuffer = ❌
   - EncAdapterLockVideoEngine = ❌
-  - H264Encode = ❌
+  - H264EncEncode = 🔶
+    - EncAdapterResetEncoder = ❌
+      - VeResetEncoder = ❌ *MR *NI
+    - insert_p_skip = ❌ (TODO)
+    - getPoc = ❌ (TODO)
+    - switch_T_SVC_QP = ❌ (TODO)
+    - rcInitPic = ❌ (TODO)
+    - H264EncField = ❌ (TODO)
+    - H264EncFrame = ❌ (TODO)
   - EncAdapterUnLockVideoEngine = ❌
   - AddUsedInputBuffer = ❌
