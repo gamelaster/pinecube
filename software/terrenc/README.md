@@ -64,3 +64,20 @@ And there are two choices:
         - RbspTrailingBits = ✅ *MR
       - InitPPS = 🔶 *MR
         - PutVlcSe = ✅ *MR
+- AllocInputBuffer = 🔶
+  - AllocateInputBuffer = 🔶
+- GetOneAllocInputBuffer = 🔶
+  - GetOneAllocateInputBuffer = 🔶
+- FlushCacheAllocInputBuffer = 🔶
+  - FlushCacheAllocateInputBuffer = 🔶
+    - EncAdapterMemFlushCache = ❌
+`NOTE: I forgot to add many EncAdapterMem functions (Ion)`
+- AddOneInputBuffer = 🔶
+  - AddInputBuffer = 🔶
+    - enqueue = ❌
+- VideoEncodeOneFrame = 🔶
+  - GetInputBuffer = ❌
+  - EncAdapterLockVideoEngine = ❌
+  - H264Encode = ❌
+  - EncAdapterUnLockVideoEngine = ❌
+  - AddUsedInputBuffer = ❌
