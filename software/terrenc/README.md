@@ -79,14 +79,36 @@ And there are two choices:
   - GetInputBuffer = ❌
   - EncAdapterLockVideoEngine = ❌
   - H264EncEncode = 🔶
-    - EncAdapterResetEncoder = ❌
-      - VeResetEncoder = ❌ *MR *NI
-    - EncAdapterEnableEncoder = ❌ (TODO)
-    - insert_p_skip = ❌ (TODO)
+    - BitStreamFreeBufferSize = ✅
+    - EncAdapterResetEncoder = 🔶
+      - VeResetEncoder = 🔶 *MR *NI
+    - EncAdapterEnableEncoder = 🔶
+      - VeEnableEncoder ✅
+    - insert_p_skip = ❌
+      - getSkipPoc = ❌
+      - p_skip_frame_encode = ❌
+        - SliceHeader_sw = ❌ (TODO)
+        - writeVlcByteAlign = ❌ (TODO)
+        - writeMB_Pskip_flagInfo_CABAC = ❌ (TODO)
+          - biari_encode_symbol
+        - writeMBLayerPSlice
+        - biari_init_context
+        - p_skip_mb_encode
+          - biari_encode_symbol_final
+            - sub_C930
+              - sub_C8F6
+            - sub_C950
+        - writeMBLayerPslice_CAVLC  
+          - writeSE_UVLC
+        - arienco_done_encoding
+        - RBSPtoEBSP
+        - BitStreamAddOneBitstream
     - getPoc = ❌ (TODO)
     - switch_T_SVC_QP = ❌ (TODO)
     - rcInitPic = ❌ (TODO)
     - H264EncField = ❌ (TODO)
     - H264EncFrame = ❌ (TODO)
+      - H264SetIspInfo (TODO)
+        - SetIspRegister_old_version (TODO)
   - EncAdapterUnLockVideoEngine = ❌
   - AddUsedInputBuffer = ❌
