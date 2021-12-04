@@ -25,8 +25,7 @@ typedef struct VENC_DEVICE
 {
 	const char *codecType;
 	void*      (*open)();
-	char gap[36];
-	/*int        (*init)(void *handle,VencBaseConfig* pBaseConfig);
+	int        (*init)(void *handle,VencBaseConfig* pBaseConfig);
 	int        (*uninit)(void *handle);
 	void       (*close)(void *handle);
 	int        (*encode)(void *handle, VencInputBuffer* pInBuffer);
@@ -34,7 +33,7 @@ typedef struct VENC_DEVICE
 	int        (*SetParameter)(void *handle, int indexType, void* param);
 	int        (*ValidBitStreamFrameNum)(void *handle);
     int        (*GetOneBitStreamFrame)(void *handle, VencOutputBuffer *pOutBuffer);
-    int        (*FreeOneBitStreamFrame)(void *handle, VencOutputBuffer *pOutBuffer);*/
+    int        (*FreeOneBitStreamFrame)(void *handle, VencOutputBuffer *pOutBuffer);
 
 }VENC_DEVICE;
 _Static_assert(sizeof(VENC_DEVICE) == 0x2C, "VENC_DEVICE doesn't have correct size");
@@ -45,5 +44,7 @@ VENC_DEVICE *VencoderDeviceCreate(VENC_CODEC_TYPE type);
 
 int VEncoderRegister(VENC_CODEC_TYPE type, char *desc, VENC_DEVICE *device);
 */
+
+extern VENC_DEVICE h264_device;
 
 #endif //_VENC_DEVICE_H_

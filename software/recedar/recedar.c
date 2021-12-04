@@ -1,6 +1,4 @@
-#define _GNU_SOURCE
 #include <stdio.h>
-#include <dlfcn.h>
 
 #include "recedar.h"
 
@@ -10,6 +8,7 @@
 
 #define RECEDAR_HOOKS_IMPLEMENT
 #include "recedar_hooks.h"
+#include <link.h>
 
 #define FRAME_BUFFER_NUM 4
 
@@ -151,6 +150,9 @@ void __attribute__ ((constructor)) recedar_init(void)
 {
 	recedar_hooks_init();
 	printf("[recedar] reCedar initialized\n");
+	/*printf("PID: %d, %p\n", getpid(), _VideoEncCreate - 0x3CC1);
+	pause();
+	exit(1);*/
 }
 
 void __attribute__ ((destructor)) recedar_fini(void)
