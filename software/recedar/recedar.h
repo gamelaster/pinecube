@@ -148,6 +148,12 @@ typedef struct FrameInfo
 	int             nTotalIndex;
 }FrameInfo;
 
+typedef struct VencHeaderData
+{
+	unsigned char*  pBuffer;
+	unsigned int	nLength;
+}VencHeaderData;
+
 typedef struct VencOutputBuffer
 {
 	int			   nID;
@@ -163,7 +169,6 @@ typedef struct VencOutputBuffer
 
 typedef void* VideoEncoder;
 VideoEncoder* VideoEncCreate(VENC_CODEC_TYPE eCodecType);
-unsigned int EncAdapterGetICVersion(void);
 int VideoEncSetParameter(VideoEncoder* pEncoder, VENC_INDEXTYPE indexType, void* paramData);
 int VideoEncInit(VideoEncoder* pEncoder, VencBaseConfig* pConfig);
 int AllocInputBuffer(VideoEncoder* pEncoder, VencAllocateBufferParam *pBufferParam);

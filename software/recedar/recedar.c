@@ -1,33 +1,77 @@
 #define _GNU_SOURCE
-#include "recedar.h"
 #include <stdio.h>
 #include <dlfcn.h>
 
-static VideoEncoder*   (*_VideoEncCreate)(VENC_CODEC_TYPE eCodecType);
-static unsigned int    (*_EncAdapterGetICVersion)(void);
-static int             (*_VideoEncSetParameter)(VideoEncoder* pEncoder, VENC_INDEXTYPE indexType, void* paramData);
-static int             (*_VideoEncInit)(VideoEncoder* pEncoder, VencBaseConfig* pConfig);
-static int             (*_AllocInputBuffer)(VideoEncoder* pEncoder, VencAllocateBufferParam *pBufferParam);
-static int             (*_GetOneAllocInputBuffer)(VideoEncoder* pEncoder, VencInputBuffer* pInputbuffer);
-static int             (*_FlushCacheAllocInputBuffer)(VideoEncoder* pEncoder,  VencInputBuffer *pInputbuffer);
-static int             (*_AddOneInputBuffer)(VideoEncoder* pEncoder, VencInputBuffer* pInputbuffer);
-static int             (*_VideoEncodeOneFrame)(VideoEncoder* pEncoder);
-static int             (*_AlreadyUsedInputBuffer)(VideoEncoder* pEncoder, VencInputBuffer* pBuffer);
-static int             (*_ReturnOneAllocInputBuffer)(VideoEncoder* pEncoder,  VencInputBuffer *pInputbuffer);
-static int             (*_VideoEncGetParameter)(VideoEncoder* pEncoder, VENC_INDEXTYPE indexType, void* paramData);
-static int             (*_FreeOneBitStreamFrame)(VideoEncoder* pEncoder, VencOutputBuffer* pBuffer);
-static int             (*_GetOneBitstreamFrame)(VideoEncoder* pEncoder, VencOutputBuffer* pBuffer);
+#include "recedar.h"
 
-// -RC status=hooked
+#include "FrameBufferManager.h"
+#include "venc_device.h"
+#include "EncAdapter.h"
+
+#define RECEDAR_HOOKS_IMPLEMENT
+#include "recedar_hooks.h"
+
+#define FRAME_BUFFER_NUM 4
+
+typedef struct VencContext
+{
+   VENC_DEVICE*         pVEncDevice;
+   void*                pEncoderHandle;
+   FrameBufferManager*  pFBM;
+   VencBaseConfig    	baseConfig;
+   unsigned int		    nFrameBufferNum;
+   VencHeaderData		headerData;
+   VencInputBuffer      curEncInputbuffer;
+   VENC_CODEC_TYPE 		codecType;
+   unsigned int         ICVersion;
+   int                  bInit;
+   unsigned int 		unknown1; // TODO: ???
+}VencContext;
+
+_Static_assert(sizeof(VencContext) == 0xF0, "VencContext doesn't have correct size");
+
+// -RC status=implemented
 VideoEncoder* VideoEncCreate(VENC_CODEC_TYPE eCodecType)
 {
-    return _VideoEncCreate(eCodecType);
-}
+    VencContext* venc_ctx = NULL;
 
-// -RC status=hooked
-unsigned int EncAdapterGetICVersion(void)
-{
-    return _EncAdapterGetICVersion();
+    if (EncAdapterInitialize() != 0) {
+    	fprintf(stderr, "[recedar] can not set up video engine runtime environment.\n");
+    	return NULL;
+    }
+
+    venc_ctx = (VencContext*) malloc(sizeof(VencContext));
+    if (!venc_ctx) {
+    	fprintf(stderr, "[recedar] malloc VencContext fail!\n");
+    	return NULL;
+    }
+    memset(venc_ctx, 0, sizeof(VencContext));
+
+    venc_ctx->nFrameBufferNum = FRAME_BUFFER_NUM;
+	venc_ctx->codecType = eCodecType;
+	venc_ctx->ICVersion = EncAdapterGetICVersion();
+	venc_ctx->bInit = 0;
+	
+	venc_ctx->pVEncDevice = VencoderDeviceCreate(eCodecType);
+	if(venc_ctx->pVEncDevice == NULL)
+	{
+		free(venc_ctx);
+		return NULL;
+	}
+
+	venc_ctx->pEncoderHandle = venc_ctx->pVEncDevice->open();
+
+	// TODO: Not needed to do it right now :-)
+	/* if(!venc_ctx->pEncoderHandle)
+	{
+		VencoderDeviceDestroy(venc_ctx->pVEncDevice);
+		venc_ctx->pVEncDevice = NULL;
+		free(venc_ctx);
+		return NULL;
+	} */
+
+	return (VideoEncoder*)venc_ctx;
+    // return _VideoEncCreate(eCodecType);
 }
 
 // -RC status=hooked
@@ -102,22 +146,10 @@ int GetOneBitstreamFrame(VideoEncoder* pEncoder, VencOutputBuffer* pBuffer)
     return _GetOneBitstreamFrame(pEncoder, pBuffer);
 }
 
+
 void __attribute__ ((constructor)) recedar_init(void)
 {
-	_VideoEncCreate = dlsym(RTLD_NEXT, "VideoEncCreate");
-	_EncAdapterGetICVersion = dlsym(RTLD_NEXT, "EncAdapterGetICVersion");
-	_VideoEncSetParameter = dlsym(RTLD_NEXT, "VideoEncSetParameter");
-	_VideoEncInit = dlsym(RTLD_NEXT, "VideoEncInit");
-	_AllocInputBuffer = dlsym(RTLD_NEXT, "AllocInputBuffer");
-	_GetOneAllocInputBuffer = dlsym(RTLD_NEXT, "GetOneAllocInputBuffer");
-	_FlushCacheAllocInputBuffer = dlsym(RTLD_NEXT, "FlushCacheAllocInputBuffer");
-	_AddOneInputBuffer = dlsym(RTLD_NEXT, "AddOneInputBuffer");
-	_VideoEncodeOneFrame = dlsym(RTLD_NEXT, "VideoEncodeOneFrame");
-	_AlreadyUsedInputBuffer = dlsym(RTLD_NEXT, "AlreadyUsedInputBuffer");
-	_ReturnOneAllocInputBuffer = dlsym(RTLD_NEXT, "ReturnOneAllocInputBuffer");
-	_VideoEncGetParameter = dlsym(RTLD_NEXT, "VideoEncGetParameter");
-	_FreeOneBitStreamFrame = dlsym(RTLD_NEXT, "FreeOneBitStreamFrame");
-	_GetOneBitstreamFrame = dlsym(RTLD_NEXT, "GetOneBitstreamFrame");
+	recedar_hooks_init();
 	printf("[recedar] reCedar initialized\n");
 }
 
