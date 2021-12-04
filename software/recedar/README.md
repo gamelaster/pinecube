@@ -5,7 +5,7 @@ TODO
 # State of project
 
 <!-- BEGIN STATE AREA -->
-There is at the moment 13 functions found, where 1 functions are implemented (0.077%)
+There is at the moment 16 functions found, where 1 functions are implemented (0.063%)
 
 | Function | Status |
 |----------|:-----:|
@@ -22,4 +22,7 @@ There is at the moment 13 functions found, where 1 functions are implemented (0.
 | VideoEncGetParameter | 🔀 Hooked (Work in Progress) |
 | FreeOneBitStreamFrame | 🔀 Hooked (Work in Progress) |
 | GetOneBitstreamFrame | 🔀 Hooked (Work in Progress) |
+| VencoderDeviceCreate | 🔀 Hooked (Work in Progress) |
+| EncAdapterInitialize | 🔀 Hooked (Work in Progress) |
+| EncAdapterGetICVersion | 🔀 Hooked (Work in Progress) |
 <!-- END STATE AREA -->
