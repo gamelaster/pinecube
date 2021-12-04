@@ -5,10 +5,20 @@ TODO
 # State of project
 
 <!-- BEGIN STATE AREA -->
-There is at the moment 16 functions found, where 1 functions are implemented (0.063%)
+There is at the moment 26 functions found, where 2 functions are implemented (0.077%)
 
 | Function | Status |
 |----------|:-----:|
+| H264EncOpen | 🔀 Hooked (Work in Progress) |
+| H264Init | 🔀 Hooked (Work in Progress) |
+| H264UnInit | 🔀 Hooked (Work in Progress) |
+| H264EncClose | 🔀 Hooked (Work in Progress) |
+| H264EncEncode | 🔀 Hooked (Work in Progress) |
+| H264GetParameter | 🔀 Hooked (Work in Progress) |
+| H264SetParameter | 🔀 Hooked (Work in Progress) |
+| H264ValidBitStreamFrameNum | 🔀 Hooked (Work in Progress) |
+| H264GetOneBitstream | 🔀 Hooked (Work in Progress) |
+| H264FreeOneBitstream | 🔀 Hooked (Work in Progress) |
 | VideoEncCreate | ✅ Implemented |
 | VideoEncSetParameter | 🔀 Hooked (Work in Progress) |
 | VideoEncInit | 🔀 Hooked (Work in Progress) |
@@ -22,7 +32,7 @@ There is at the moment 16 functions found, where 1 functions are implemented (0.
 | VideoEncGetParameter | 🔀 Hooked (Work in Progress) |
 | FreeOneBitStreamFrame | 🔀 Hooked (Work in Progress) |
 | GetOneBitstreamFrame | 🔀 Hooked (Work in Progress) |
-| VencoderDeviceCreate | 🔀 Hooked (Work in Progress) |
+| VencoderDeviceCreate | ✅ Implemented |
 | EncAdapterInitialize | 🔀 Hooked (Work in Progress) |
 | EncAdapterGetICVersion | 🔀 Hooked (Work in Progress) |
 <!-- END STATE AREA -->
