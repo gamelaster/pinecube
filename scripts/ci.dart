@@ -9,22 +9,30 @@ class FunctionInfo {
 }
 
 Future<List<FunctionInfo>> parseCode() async {
-  final codeLines = await File(path.absolute(
-          path.dirname(Platform.script.toFilePath()),
-          "../software/recedar/recedar.c"))
-      .readAsLines();
+  final files = (await Directory(path.absolute(
+              path.dirname(Platform.script.toFilePath()),
+              "../software/recedar/"))
+          .list()
+          .toList())
+      .where((element) => element.path.endsWith('.c'));
+
   List<FunctionInfo> functions = [];
-  for (int i = 0; i < codeLines.length; i++) {
-    final line = codeLines[i];
-    if (line.contains("// -RC ")) {
-      final arguments = Map<String, String>.fromIterable(
-        line.split("// -RC ")[1].split(',').map((e) => e.split('=')),
-        key: (element) => element[0],
-        value: (element) => element[1],
-      );
-      RegExp functionNameExp = RegExp(r" ([a-zA-Z0-9_]+)\((.*?)\)");
-      final functionName = functionNameExp.firstMatch(codeLines[++i]).group(1);
-      functions.add(FunctionInfo(name: functionName, arguments: arguments));
+  for (final file in files) {
+    final codeLines = await File(file.path).readAsLines();
+    for (int i = 0; i < codeLines.length; i++) {
+      final line = codeLines[i];
+      if (line.contains("// -RC ")) {
+        final arguments = Map<String, String>.fromIterable(
+          line.split("// -RC ")[1].split(',').map((e) => e.split('=')),
+          key: (element) => element[0],
+          value: (element) => element[1],
+        );
+        RegExp functionNameExp = RegExp(r" ([a-zA-Z0-9_]+)\((.*?)\)");
+        final functionName = functionNameExp
+            .firstMatch(codeLines[++i].replaceAll('*', ''))
+            .group(1);
+        functions.add(FunctionInfo(name: functionName, arguments: arguments));
+      }
     }
   }
   return functions;
