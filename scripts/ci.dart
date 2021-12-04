@@ -35,12 +35,16 @@ Future<List<FunctionInfo>> parseCode() async {
       }
     }
   }
+  functions.sort((a, b) => a.name.compareTo(b.name));
   return functions;
 }
 
 void main() async {
   final functions = await parseCode();
-  List<String> table = ["| Function | Status |", "|----------|:-----:|"];
+  List<String> table = [
+    "| Function | Status | Notes |",
+    "|----------|:-----:|-------|"
+  ];
   int totalFunctions = 0;
   int implementedFunctions = 0;
   for (final function in functions) {
@@ -58,8 +62,9 @@ void main() async {
         state = '✅ Implemented';
         break;
     }
+    String notes = function.arguments['notes'] ?? '';
     totalFunctions++;
-    table.add("| ${function.name} | $state |");
+    table.add("| ${function.name} | $state | $notes |");
   }
 
   String percentageDone =
