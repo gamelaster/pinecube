@@ -5,12 +5,11 @@ TODO
 # State of project
 
 <!-- BEGIN STATE AREA -->
-There is at the moment 14 functions found, where 0 functions are implemented (0.0%)
+There is at the moment 13 functions found, where 1 functions are implemented (0.077%)
 
 | Function | Status |
 |----------|:-----:|
-| VideoEncCreate | 🔀 Hooked (Work in Progress) |
-| EncAdapterGetICVersion | 🔀 Hooked (Work in Progress) |
+| VideoEncCreate | ✅ Implemented |
 | VideoEncSetParameter | 🔀 Hooked (Work in Progress) |
 | VideoEncInit | 🔀 Hooked (Work in Progress) |
 | AllocInputBuffer | 🔀 Hooked (Work in Progress) |
