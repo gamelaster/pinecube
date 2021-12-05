@@ -1,6 +1,8 @@
 #include "venc_device.h"
 #include "recedar_hooks.h"
 
+#include "h264_device.h"
+
 // -RC status=implemented
 VENC_DEVICE *VencoderDeviceCreate(VENC_CODEC_TYPE type)
 {

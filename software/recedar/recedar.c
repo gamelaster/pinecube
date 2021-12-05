@@ -82,7 +82,9 @@ int VideoEncSetParameter(VideoEncoder* pEncoder, VENC_INDEXTYPE indexType, void*
 // -RC status=hooked
 int VideoEncInit(VideoEncoder* pEncoder, VencBaseConfig* pConfig)
 {
-    return _VideoEncInit(pEncoder, pConfig);
+	int err = _VideoEncInit(pEncoder, pConfig);
+	printf("Error: %d\n", err);
+    return err;
 }
 
 // -RC status=hooked

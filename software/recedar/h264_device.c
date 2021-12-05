@@ -1,10 +1,38 @@
 #include "venc_device.h"
 #include "recedar_hooks.h"
+#include "EncAdapter.h"
+
+#include <stdio.h>
 
 // -RC status=hooked
-int H264EncOpen()
+void h264_init_default_param(h264_context* h264Context)
 {
-	return _H264EncOpen();
+	_h264_init_default_param(h264Context);	
+}
+
+// -RC status=hooked
+int h264_get_ve_capability(h264_context* h264Context)
+{
+	return _h264_get_ve_capability(h264Context);
+}
+
+// -RC status=implemented
+void* H264EncOpen()
+{
+	h264_context* h264Context = malloc(sizeof(h264_context));
+	if (!h264Context) {
+		fprintf(stderr, "[recedar] Create h264_context error.\n");
+		return NULL;
+	}
+	memset(h264Context, 0, sizeof(h264_context));
+	_h264_init_default_param(h264Context);
+	h264Context->ic_version = EncAdapterGetICVersion();
+	if (_h264_get_ve_capability(h264Context) < 0) {
+		fprintf(stderr, "[recedar] the driver do not support ic\n");
+		return NULL;
+	}
+	h264Context->field_ED8 = 0x800000;
+	return h264Context;
 }
 
 // -RC status=hooked

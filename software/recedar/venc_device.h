@@ -45,6 +45,4 @@ VENC_DEVICE *VencoderDeviceCreate(VENC_CODEC_TYPE type);
 int VEncoderRegister(VENC_CODEC_TYPE type, char *desc, VENC_DEVICE *device);
 */
 
-extern VENC_DEVICE h264_device;
-
 #endif //_VENC_DEVICE_H_
