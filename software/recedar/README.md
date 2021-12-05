@@ -5,7 +5,7 @@ TODO
 # State of project
 
 <!-- BEGIN STATE AREA -->
-There is at the moment 28 functions found, where 3 functions are implemented (0.11%)
+There is at the moment 28 functions found, where 4 functions are implemented (0.14%)
 
 | Function | Status | Notes |
 |----------|:-----:|-------|
@@ -36,5 +36,5 @@ There is at the moment 28 functions found, where 3 functions are implemented (0.
 | VideoEncSetParameter | 🔀 Hooked (Work in Progress) |  |
 | VideoEncodeOneFrame | 🔀 Hooked (Work in Progress) |  |
 | h264_get_ve_capability | 🔀 Hooked (Work in Progress) |  |
-| h264_init_default_param | 🔀 Hooked (Work in Progress) |  |
+| h264_init_default_param | ✅ Implemented |  |
 <!-- END STATE AREA -->
