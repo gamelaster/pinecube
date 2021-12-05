@@ -4,10 +4,44 @@
 
 #include <stdio.h>
 
-// -RC status=hooked
+// -RC status=implemented
 void h264_init_default_param(h264_context* h264Context)
 {
-	_h264_init_default_param(h264Context);	
+	h264Context->field_1E0 = 18;
+	h264Context->field_1B8 = 0x200000;
+	h264Context->field_1BC = 30000;
+	h264Context->field_1B0 = 25;
+	h264Context->field_1CC = 45;
+	h264Context->field_711 = 1;
+	h264Context->field_1C8 = 1;
+	h264Context->field_1D0 = 10;
+	h264Context->field_1D4 = 2;
+	h264Context->field_1D8 = 30;
+	h264Context->field_1DC = 30;
+	h264Context->field_6EC = 77;
+	h264Context->field_6F0 = 41;
+	h264Context->field_6F4 = 4;
+	h264Context->field_70F = 1;
+	h264Context->field_710 = 1;
+	h264Context->field_6FD = 1;
+	h264Context->field_6FE = 1;
+	h264Context->field_70C = 4;
+	h264Context->field_1A4 = 0;
+	h264Context->field_1B4 = 0;
+	h264Context->field_BC = 0;
+	h264Context->field_1AC = 0;
+	h264Context->field_6F5 = 8;
+	h264Context->field_6FC = 0;
+	h264Context->field_6FF = 0;
+	h264Context->field_700 = 0;
+	h264Context->field_704 = 0;
+	h264Context->field_708 = 0;
+	h264Context->field_70D = 0;
+	h264Context->field_5C = 4096;
+	h264Context->field_60 = 4096;
+	h264Context->field_D7C = 5;
+	h264Context->field_68 = 0;
+	h264Context->field_EE0 = 0;
 }
 
 // -RC status=hooked
