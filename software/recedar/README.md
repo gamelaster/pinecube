@@ -1,6 +1,8 @@
 # reCedar
 
-TODO
+reCedar is open-source implementation of library CedarX, which is used for hardware accelerated H.264 encoding.
+
+The plan is to reverse engineer and implement all functions (and all their functions which those functions are calling), which are used by [this example encoding app](https://github.com/gamelaster/pinecube/tree/main/software/encoder). I started once again from scratch, because I was writting Terrenc as standalone app, and it would require a lot of functions to be implemented to get any result, and it would probably have errors inside, so it would be hard to debug it. Instead, reCedar is shared library, which exports same functions as `libvencoder.so`, and thanks to `LD_PRELOAD` thing, I can force `encoder` app to use reCedar's functions instead of original `libvencoder.so`, but still have ability to call original functions, so it's way easier to test the implementation if it works correctly. Also I made some mistakes when I was working on my IDA Pro IDB, so I started reverse engineering the blob from scratch too.
 
 # State of project
 
