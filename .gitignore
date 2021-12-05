@@ -1,5 +1,7 @@
 scripts/.packages
 scripts/.dart_tool
+scripts/.vscode
+scripts/*.dll
 *.id0
 *.id1
 *.id2
