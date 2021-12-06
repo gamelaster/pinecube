@@ -8,28 +8,28 @@
 void h264_init_default_param(h264_context* h264Context)
 {
 	h264Context->field_1E0 = 18;
-	h264Context->field_1B8 = 0x200000;
-	h264Context->field_1BC = 30000;
-	h264Context->field_1B0 = 25;
-	h264Context->field_1CC = 45;
+	h264Context->bitrate = 0x200000;
+	h264Context->framerate = 30000;
+	h264Context->maxKeyInterval = 25;
+	h264Context->maxQp = 45;
 	h264Context->field_711 = 1;
 	h264Context->field_1C8 = 1;
-	h264Context->field_1D0 = 10;
+	h264Context->minQp = 10;
 	h264Context->field_1D4 = 2;
 	h264Context->field_1D8 = 30;
 	h264Context->field_1DC = 30;
-	h264Context->field_6EC = 77;
-	h264Context->field_6F0 = 41;
+	h264Context->profileLevel.nProfile = VENC_H264ProfileMain;
+	h264Context->profileLevel.nLevel = VENC_H264Level41;
 	h264Context->field_6F4 = 4;
 	h264Context->field_70F = 1;
 	h264Context->field_710 = 1;
-	h264Context->field_6FD = 1;
+	h264Context->entropyCoding = 1;
 	h264Context->field_6FE = 1;
 	h264Context->field_70C = 4;
 	h264Context->field_1A4 = 0;
 	h264Context->field_1B4 = 0;
 	h264Context->field_BC = 0;
-	h264Context->field_1AC = 0;
+	h264Context->forceKeyFrame = 0;
 	h264Context->field_6F5 = 8;
 	h264Context->field_6FC = 0;
 	h264Context->field_6FF = 0;
@@ -40,8 +40,8 @@ void h264_init_default_param(h264_context* h264Context)
 	h264Context->field_5C = 4096;
 	h264Context->field_60 = 4096;
 	h264Context->field_D7C = 5;
-	h264Context->field_68 = 0;
-	h264Context->field_EE0 = 0;
+	h264Context->rotation = 0;
+	h264Context->superFrameConfig.eSuperFrameMode = VENC_SUPERFRAME_NONE;
 }
 
 // -RC status=hooked
@@ -65,7 +65,7 @@ void* H264EncOpen()
 		fprintf(stderr, "[recedar] the driver do not support ic\n");
 		return NULL;
 	}
-	h264Context->field_ED8 = 0x800000;
+	h264Context->vbvSize = 0x800000;
 	return h264Context;
 }
 
@@ -99,7 +99,7 @@ int H264GetParameter(void *handle, int indexType, void* param)
 	return _H264GetParameter(handle, indexType, param);
 }
 
-// -RC status=hooked
+// -RC status=hooked,notes=Huge function and just sets parameters to struct. It's entries are already reversed, and it will be implemented as last thing.
 int H264SetParameter(void *handle, int indexType, void* param)
 {
 	return _H264SetParameter(handle, indexType, param);

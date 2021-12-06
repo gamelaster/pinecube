@@ -73,10 +73,12 @@ VideoEncoder* VideoEncCreate(VENC_CODEC_TYPE eCodecType)
     // return _VideoEncCreate(eCodecType);
 }
 
-// -RC status=hooked
+// -RC status=implemented
 int VideoEncSetParameter(VideoEncoder* pEncoder, VENC_INDEXTYPE indexType, void* paramData)
 {
-    return _VideoEncSetParameter(pEncoder, indexType, paramData);
+    // return _VideoEncSetParameter(pEncoder, indexType, paramData);
+    VencContext* venc_ctx = (VencContext*) pEncoder;
+    return venc_ctx->pVEncDevice->SetParameter(venc_ctx->pEncoderHandle, indexType, paramData);
 }
 
 // -RC status=hooked
