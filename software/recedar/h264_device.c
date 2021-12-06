@@ -99,7 +99,7 @@ int H264GetParameter(void *handle, int indexType, void* param)
 	return _H264GetParameter(handle, indexType, param);
 }
 
-// -RC status=hooked,notes=Huge function and just sets parameters to struct. It's entries are already reversed, and it will be implemented as last thing.
+// -RC status=hooked
 int H264SetParameter(void *handle, int indexType, void* param)
 {
 	return _H264SetParameter(handle, indexType, param);
