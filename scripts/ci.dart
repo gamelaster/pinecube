@@ -51,11 +51,15 @@ void main() async {
     String state = '';
     switch (function.arguments['status']) {
       case 'hooked':
-        state = '🔀 Hooked (Work in Progress)';
+        state = '🔀 Hooked';
         break;
       case 'implementing':
         String percent = function.arguments['percent'] ?? '?';
         state = "🔁 Implementing ($percent% done)";
+        break;
+      case 'not-needed-yet':
+        totalFunctions--; // This function is not important, so don't count it into stats
+        state = '🕒 Not Needed Yet';
         break;
       case 'implemented':
         implementedFunctions++;
@@ -72,7 +76,12 @@ void main() async {
           .toStringAsPrecision(2);
   String info =
       "There is at the moment ${totalFunctions} functions found, where ${implementedFunctions} functions are implemented (${percentageDone}%)";
-  String area = info + '\n\n' + table.join('\n');
+  String legend = "Legend:\n\n" +
+      "- 🔀 Hooked - Means that this function is hooked, so original function is called and needs to be implemented\n" +
+      "- 🔁 Implementing - Feature is being implemented (with progress)\n" +
+      "- 🕒 Not Needed Yet - Function is hooked, but it's not required to implement it now, because it's not important, or because it will be implemented differently from original function (but function should be Reverse Engineered already)\n" +
+      "- ✅ Implemented - Function is implemented and working";
+  String area = info + '\n\n' + legend + '\n\n' + table.join('\n');
 
   final readmeFilePath = path.absolute(
       path.dirname(Platform.script.toFilePath()),
