@@ -13,5 +13,6 @@ void main() {
     return "->field_$address";
   });
   print("Converted :-)");
+  print(clipboard);
   Clipboard.setContents(clipboard);
 }
