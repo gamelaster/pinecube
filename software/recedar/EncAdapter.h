@@ -25,13 +25,13 @@
 
 int   EncAdapterInitialize(void);
 
-/*void  EncAdpaterRelease(void);
+void  EncAdpaterRelease(void);
 
 int   EncAdapterLockVideoEngine(void);
 
 void  EncAdapterUnLockVideoEngine(void);
 
-void* EncAdapterMemPalloc(int nSize);
+/*void* EncAdapterMemPalloc(int nSize);
 
 void  EncAdapterMemPfree(void* pMem);
 

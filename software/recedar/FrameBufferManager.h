@@ -61,8 +61,8 @@ typedef struct FrameBufferManager
 }FrameBufferManager;
 
 
-/*FrameBufferManager* FrameBufferManagerCreate(int num);
-void FrameBufferManagerDestroy(FrameBufferManager* fbm);
+FrameBufferManager* FrameBufferManagerCreate(int num);
+/*void FrameBufferManagerDestroy(FrameBufferManager* fbm);
 int AddInputBuffer(FrameBufferManager* fbm, VencInputBuffer *inputbuffer);
 int GetInputBuffer(FrameBufferManager* fbm, VencInputBuffer *inputbuffer);
 int AddUsedInputBuffer(FrameBufferManager* fbm, VencInputBuffer *inputbuffer);

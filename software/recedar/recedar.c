@@ -9,6 +9,8 @@
 #define RECEDAR_HOOKS_IMPLEMENT
 #include "recedar_hooks.h"
 #include <link.h>
+#include <string.h>
+#include <unistd.h>
 
 #define FRAME_BUFFER_NUM 4
 
@@ -81,12 +83,42 @@ int VideoEncSetParameter(VideoEncoder* pEncoder, VENC_INDEXTYPE indexType, void*
     return venc_ctx->pVEncDevice->SetParameter(venc_ctx->pEncoderHandle, indexType, paramData);
 }
 
-// -RC status=hooked
+// -RC status=implemented
 int VideoEncInit(VideoEncoder* pEncoder, VencBaseConfig* pConfig)
 {
-	int err = _VideoEncInit(pEncoder, pConfig);
-	printf("Error: %d\n", err);
-    return err;
+    VencContext* venc_ctx = (VencContext*)pEncoder;
+    printf("ICVersion 0x%X\n", venc_ctx->ICVersion);
+    return _VideoEncInit(pEncoder, pConfig);
+    if (venc_ctx == NULL || pConfig == NULL || venc_ctx->bInit) {
+        fprintf(stderr, "[recedar] InitVideoEncoder, param is NULL\n");
+        return -1;
+    }
+    venc_ctx->pFBM = FrameBufferManagerCreate(venc_ctx->nFrameBufferNum);
+    if (venc_ctx->pFBM == NULL) {
+        fprintf(stderr, "[recedar] venc_ctx->pFBM == NULL\n");
+        return -1;
+    }
+    /* TODO: Implement if we find SoC with this version
+    if(venc_ctx->ICVersion == 0x1639)
+	{
+		if(pConfig->nDstWidth >= 3840 || pConfig->nDstHeight>= 2160)
+		{
+			VeInitEncoderPerformance(1);
+
+		}
+		else
+		{
+			VeInitEncoderPerformance(0);
+			logd("VeInitEncoderPerformance");
+		}
+	} */
+    memcpy(&venc_ctx->baseConfig, pConfig, sizeof(VencBaseConfig));
+    EncAdapterLockVideoEngine();
+    int result = venc_ctx->pVEncDevice->init(venc_ctx->pEncoderHandle, &venc_ctx->baseConfig);
+    EncAdapterUnLockVideoEngine();
+    
+    venc_ctx->bInit = 1;
+    return result;
 }
 
 // -RC status=hooked
@@ -153,7 +185,8 @@ int GetOneBitstreamFrame(VideoEncoder* pEncoder, VencOutputBuffer* pBuffer)
 void __attribute__ ((constructor)) recedar_init(void)
 {
 	recedar_hooks_init();
-	printf("[recedar] reCedar initialized\n");
+	printf("[recedar] reCedar initialized (" __DATE__ " " __TIME__ ")\n");
+    sleep(1);
 	/*printf("PID: %d, %p\n", getpid(), _VideoEncCreate - 0x3CC1);
 	pause();
 	exit(1);*/
@@ -161,5 +194,4 @@ void __attribute__ ((constructor)) recedar_init(void)
 
 void __attribute__ ((destructor)) recedar_fini(void)
 {
-
 }

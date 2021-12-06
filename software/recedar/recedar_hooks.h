@@ -7,6 +7,7 @@
 #include "recedar.h"
 #include "venc_device.h"
 #include "h264_device.h"
+#include "FrameBufferManager.h"
 #include <stdlib.h>
 
 #ifdef RECEDAR_HOOKS_IMPLEMENT
@@ -15,37 +16,39 @@
 #define RECEDAR_HOOKS_EXTERN extern
 #endif
 
-RECEDAR_HOOKS_EXTERN VideoEncoder*   (*_VideoEncCreate)(VENC_CODEC_TYPE eCodecType);
-RECEDAR_HOOKS_EXTERN unsigned int    (*_EncAdapterGetICVersion)(void);
-RECEDAR_HOOKS_EXTERN int             (*_VideoEncSetParameter)(VideoEncoder* pEncoder, VENC_INDEXTYPE indexType, void* paramData);
-RECEDAR_HOOKS_EXTERN int             (*_VideoEncInit)(VideoEncoder* pEncoder, VencBaseConfig* pConfig);
-RECEDAR_HOOKS_EXTERN int             (*_AllocInputBuffer)(VideoEncoder* pEncoder, VencAllocateBufferParam *pBufferParam);
-RECEDAR_HOOKS_EXTERN int             (*_GetOneAllocInputBuffer)(VideoEncoder* pEncoder, VencInputBuffer* pInputbuffer);
-RECEDAR_HOOKS_EXTERN int             (*_FlushCacheAllocInputBuffer)(VideoEncoder* pEncoder,  VencInputBuffer *pInputbuffer);
-RECEDAR_HOOKS_EXTERN int             (*_AddOneInputBuffer)(VideoEncoder* pEncoder, VencInputBuffer* pInputbuffer);
-RECEDAR_HOOKS_EXTERN int             (*_VideoEncodeOneFrame)(VideoEncoder* pEncoder);
-RECEDAR_HOOKS_EXTERN int             (*_AlreadyUsedInputBuffer)(VideoEncoder* pEncoder, VencInputBuffer* pBuffer);
-RECEDAR_HOOKS_EXTERN int             (*_ReturnOneAllocInputBuffer)(VideoEncoder* pEncoder,  VencInputBuffer *pInputbuffer);
-RECEDAR_HOOKS_EXTERN int             (*_VideoEncGetParameter)(VideoEncoder* pEncoder, VENC_INDEXTYPE indexType, void* paramData);
-RECEDAR_HOOKS_EXTERN int             (*_FreeOneBitStreamFrame)(VideoEncoder* pEncoder, VencOutputBuffer* pBuffer);
-RECEDAR_HOOKS_EXTERN int             (*_GetOneBitstreamFrame)(VideoEncoder* pEncoder, VencOutputBuffer* pBuffer);
-RECEDAR_HOOKS_EXTERN unsigned int 	 (*_EncAdapterGetICVersion)(void);
-RECEDAR_HOOKS_EXTERN int   			 (*_EncAdapterInitialize)(void);
-RECEDAR_HOOKS_EXTERN VENC_DEVICE *	 (*_VencoderDeviceCreate)(VENC_CODEC_TYPE type);
-RECEDAR_HOOKS_EXTERN void*	 		 (*_H264EncOpen)();
-RECEDAR_HOOKS_EXTERN int			 (*_H264Init)(void *handle,VencBaseConfig* pBaseConfig);
-RECEDAR_HOOKS_EXTERN int	 		 (*_H264UnInit)(void *handle);
-RECEDAR_HOOKS_EXTERN void			 (*_H264EncClose)(void *handle);
-RECEDAR_HOOKS_EXTERN int			 (*_H264EncEncode)(void *handle, VencInputBuffer* pInBuffer);
-RECEDAR_HOOKS_EXTERN int			 (*_H264GetParameter)(void *handle, int indexType, void* param);
-RECEDAR_HOOKS_EXTERN int			 (*_H264SetParameter)(void *handle, int indexType, void* param);
-RECEDAR_HOOKS_EXTERN int			 (*_H264ValidBitStreamFrameNum)(void *handle);
-RECEDAR_HOOKS_EXTERN int			 (*_H264GetOneBitstream)(void *handle, VencOutputBuffer *pOutBuffer);
-RECEDAR_HOOKS_EXTERN int			 (*_H264FreeOneBitstream)(void *handle, VencOutputBuffer *pOutBuffer);
-RECEDAR_HOOKS_EXTERN int			 (*_H264FreeOneBitstream)(void *handle, VencOutputBuffer *pOutBuffer);
-RECEDAR_HOOKS_EXTERN void			 (*_h264_init_default_param)(h264_context* h264Context);
-RECEDAR_HOOKS_EXTERN int 			 (*_h264_get_ve_capability)(h264_context* h264Context);
-
+RECEDAR_HOOKS_EXTERN VideoEncoder*   		(*_VideoEncCreate)(VENC_CODEC_TYPE eCodecType);
+RECEDAR_HOOKS_EXTERN unsigned int    		(*_EncAdapterGetICVersion)(void);
+RECEDAR_HOOKS_EXTERN int             		(*_VideoEncSetParameter)(VideoEncoder* pEncoder, VENC_INDEXTYPE indexType, void* paramData);
+RECEDAR_HOOKS_EXTERN int             		(*_VideoEncInit)(VideoEncoder* pEncoder, VencBaseConfig* pConfig);
+RECEDAR_HOOKS_EXTERN int             		(*_AllocInputBuffer)(VideoEncoder* pEncoder, VencAllocateBufferParam *pBufferParam);
+RECEDAR_HOOKS_EXTERN int             		(*_GetOneAllocInputBuffer)(VideoEncoder* pEncoder, VencInputBuffer* pInputbuffer);
+RECEDAR_HOOKS_EXTERN int             		(*_FlushCacheAllocInputBuffer)(VideoEncoder* pEncoder,  VencInputBuffer *pInputbuffer);
+RECEDAR_HOOKS_EXTERN int             		(*_AddOneInputBuffer)(VideoEncoder* pEncoder, VencInputBuffer* pInputbuffer);
+RECEDAR_HOOKS_EXTERN int             		(*_VideoEncodeOneFrame)(VideoEncoder* pEncoder);
+RECEDAR_HOOKS_EXTERN int             		(*_AlreadyUsedInputBuffer)(VideoEncoder* pEncoder, VencInputBuffer* pBuffer);
+RECEDAR_HOOKS_EXTERN int             		(*_ReturnOneAllocInputBuffer)(VideoEncoder* pEncoder,  VencInputBuffer *pInputbuffer);
+RECEDAR_HOOKS_EXTERN int             		(*_VideoEncGetParameter)(VideoEncoder* pEncoder, VENC_INDEXTYPE indexType, void* paramData);
+RECEDAR_HOOKS_EXTERN int             		(*_FreeOneBitStreamFrame)(VideoEncoder* pEncoder, VencOutputBuffer* pBuffer);
+RECEDAR_HOOKS_EXTERN int             		(*_GetOneBitstreamFrame)(VideoEncoder* pEncoder, VencOutputBuffer* pBuffer);
+RECEDAR_HOOKS_EXTERN unsigned int 	 		(*_EncAdapterGetICVersion)(void);
+RECEDAR_HOOKS_EXTERN int   			 		(*_EncAdapterInitialize)(void);
+RECEDAR_HOOKS_EXTERN VENC_DEVICE *	 		(*_VencoderDeviceCreate)(VENC_CODEC_TYPE type);
+RECEDAR_HOOKS_EXTERN void*	 		 		(*_H264EncOpen)();
+RECEDAR_HOOKS_EXTERN int			 		(*_H264Init)(void *handle,VencBaseConfig* pBaseConfig);
+RECEDAR_HOOKS_EXTERN int	 		 		(*_H264UnInit)(void *handle);
+RECEDAR_HOOKS_EXTERN void			 		(*_H264EncClose)(void *handle);
+RECEDAR_HOOKS_EXTERN int			 		(*_H264EncEncode)(void *handle, VencInputBuffer* pInBuffer);
+RECEDAR_HOOKS_EXTERN int			 		(*_H264GetParameter)(void *handle, int indexType, void* param);
+RECEDAR_HOOKS_EXTERN int			 		(*_H264SetParameter)(void *handle, int indexType, void* param);
+RECEDAR_HOOKS_EXTERN int			 		(*_H264ValidBitStreamFrameNum)(void *handle);
+RECEDAR_HOOKS_EXTERN int			 		(*_H264GetOneBitstream)(void *handle, VencOutputBuffer *pOutBuffer);
+RECEDAR_HOOKS_EXTERN int			 		(*_H264FreeOneBitstream)(void *handle, VencOutputBuffer *pOutBuffer);
+RECEDAR_HOOKS_EXTERN int			 		(*_H264FreeOneBitstream)(void *handle, VencOutputBuffer *pOutBuffer);
+RECEDAR_HOOKS_EXTERN void			 		(*_h264_init_default_param)(h264_context* h264Context);
+RECEDAR_HOOKS_EXTERN int 			 		(*_h264_get_ve_capability)(h264_context* h264Context);
+RECEDAR_HOOKS_EXTERN FrameBufferManager* 	(*_FrameBufferManagerCreate)(int num);
+RECEDAR_HOOKS_EXTERN int   					(*_EncAdapterLockVideoEngine)(void);
+RECEDAR_HOOKS_EXTERN void  					(*_EncAdapterUnLockVideoEngine)(void);
 
 extern void recedar_hooks_init();
 
@@ -90,6 +93,9 @@ void recedar_hooks_init()
 	HOOK_FUNCTION(H264FreeOneBitstream);
 	HOOK_FUNCTION(h264_init_default_param);
 	HOOK_FUNCTION(h264_get_ve_capability);
+	HOOK_FUNCTION(FrameBufferManagerCreate);
+	HOOK_FUNCTION(EncAdapterLockVideoEngine);
+	HOOK_FUNCTION(EncAdapterUnLockVideoEngine);
 #undef HOOK_FUNCTION
 }
 #endif
