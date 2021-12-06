@@ -7,16 +7,19 @@ The plan is to reverse engineer and implement all functions (and all their funct
 # State of project
 
 <!-- BEGIN STATE AREA -->
-There is at the moment 28 functions found, where 5 functions are implemented (0.18%)
+There is at the moment 31 functions found, where 6 functions are implemented (0.19%)
 
 | Function | Status | Notes |
 |----------|:-----:|-------|
 | AddOneInputBuffer | 🔀 Hooked (Work in Progress) |  |
 | AllocInputBuffer | 🔀 Hooked (Work in Progress) |  |
 | AlreadyUsedInputBuffer | 🔀 Hooked (Work in Progress) |  |
-| EncAdapterGetICVersion | 🔀 Hooked (Work in Progress) |  |
-| EncAdapterInitialize | 🔀 Hooked (Work in Progress) |  |
+| EncAdapterGetICVersion |  |  |
+| EncAdapterInitialize |  |  |
+| EncAdapterLockVideoEngine |  |  |
+| EncAdapterUnLockVideoEngine |  |  |
 | FlushCacheAllocInputBuffer | 🔀 Hooked (Work in Progress) |  |
+| FrameBufferManagerCreate |  |  |
 | FreeOneBitStreamFrame | 🔀 Hooked (Work in Progress) |  |
 | GetOneAllocInputBuffer | 🔀 Hooked (Work in Progress) |  |
 | GetOneBitstreamFrame | 🔀 Hooked (Work in Progress) |  |
@@ -34,7 +37,7 @@ There is at the moment 28 functions found, where 5 functions are implemented (0.
 | VencoderDeviceCreate | ✅ Implemented |  |
 | VideoEncCreate | ✅ Implemented |  |
 | VideoEncGetParameter | 🔀 Hooked (Work in Progress) |  |
-| VideoEncInit | 🔀 Hooked (Work in Progress) |  |
+| VideoEncInit | ✅ Implemented |  |
 | VideoEncSetParameter | ✅ Implemented |  |
 | VideoEncodeOneFrame | 🔀 Hooked (Work in Progress) |  |
 | h264_get_ve_capability | 🔀 Hooked (Work in Progress) |  |
