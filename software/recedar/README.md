@@ -7,7 +7,7 @@ The plan is to reverse engineer and implement all functions (and all their funct
 # State of project
 
 <!-- BEGIN STATE AREA -->
-There is at the moment 28 functions found, where 4 functions are implemented (0.14%)
+There is at the moment 28 functions found, where 5 functions are implemented (0.18%)
 
 | Function | Status | Notes |
 |----------|:-----:|-------|
@@ -35,7 +35,7 @@ There is at the moment 28 functions found, where 4 functions are implemented (0.
 | VideoEncCreate | ✅ Implemented |  |
 | VideoEncGetParameter | 🔀 Hooked (Work in Progress) |  |
 | VideoEncInit | 🔀 Hooked (Work in Progress) |  |
-| VideoEncSetParameter | 🔀 Hooked (Work in Progress) |  |
+| VideoEncSetParameter | ✅ Implemented |  |
 | VideoEncodeOneFrame | 🔀 Hooked (Work in Progress) |  |
 | h264_get_ve_capability | 🔀 Hooked (Work in Progress) |  |
 | h264_init_default_param | ✅ Implemented |  |
