@@ -7,7 +7,7 @@ The plan is to reverse engineer and implement all functions (and all their funct
 # State of project
 
 <!-- BEGIN STATE AREA -->
-There is at the moment 26 functions found, where 6 functions are implemented (0.23%)
+There is at the moment 34 functions found, where 9 functions are implemented (0.26%)
 
 Legend:
 
@@ -25,6 +25,7 @@ Legend:
 | EncAdapterInitialize | 🕒 Not Needed Yet |  |
 | EncAdapterLockVideoEngine | 🕒 Not Needed Yet |  |
 | EncAdapterUnLockVideoEngine | 🕒 Not Needed Yet |  |
+| EncAdapterVeGetBaseAddress | 🕒 Not Needed Yet |  |
 | FlushCacheAllocInputBuffer | 🔀 Hooked |  |
 | FrameBufferManagerCreate | 🕒 Not Needed Yet |  |
 | FreeOneBitStreamFrame | 🔀 Hooked |  |
@@ -36,17 +37,25 @@ Legend:
 | H264FreeOneBitstream | 🔀 Hooked |  |
 | H264GetOneBitstream | 🔀 Hooked |  |
 | H264GetParameter | 🔀 Hooked |  |
-| H264Init | 🔀 Hooked |  |
+| H264Init | ✅ Implemented |  |
+| H264InitMemory | 🔀 Hooked |  |
 | H264SetParameter | 🔀 Hooked |  |
 | H264UnInit | 🔀 Hooked |  |
 | H264ValidBitStreamFrameNum | 🔀 Hooked |  |
+| IspCreate | ✅ Implemented |  |
 | ReturnOneAllocInputBuffer | 🔀 Hooked |  |
+| SetIspBaseAddress | ✅ Implemented |  |
 | VencoderDeviceCreate | ✅ Implemented |  |
 | VideoEncCreate | ✅ Implemented |  |
 | VideoEncGetParameter | 🔀 Hooked |  |
 | VideoEncInit | ✅ Implemented |  |
 | VideoEncSetParameter | ✅ Implemented |  |
 | VideoEncodeOneFrame | 🔀 Hooked |  |
+| h264_check_capability | 🔀 Hooked |  |
 | h264_get_ve_capability | 🔀 Hooked |  |
+| h264_init_Poc | 🔀 Hooked |  |
 | h264_init_default_param | ✅ Implemented |  |
+| h264_init_rc_quene | 🔀 Hooked |  |
+| h264_init_regInfo | 🔀 Hooked |  |
+| h264_init_sps_pps | 🔀 Hooked |  |
 <!-- END STATE AREA -->
