@@ -39,17 +39,17 @@ void  EncAdapterMemFlushCache(void* pMem, int nSize);
 
 void* EncAdapterMemGetPhysicAddress(void* pVirtualAddress);
 
-void* EncAdapterMemGetPhysicAddressCpu(void* pVirtualAddress);
+void* EncAdapterMemGetPhysicAddressCpu(void* pVirtualAddress); 
 
 void* EncAdapterMemGetVirtualAddress(void* pPhysicAddress);
 
 void  EncAdapterVeReset(void);
 
-int   EncAdapterVeWaitInterrupt(void);
+int   EncAdapterVeWaitInterrupt(void); */
 
 void* EncAdapterVeGetBaseAddress(void);
 
-int   EncAdapterMemGetDramType(void);
+/* int   EncAdapterMemGetDramType(void);
 
 void EncAdapterEnableEncoder(void);
 

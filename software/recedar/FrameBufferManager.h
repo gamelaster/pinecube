@@ -20,6 +20,7 @@
 #define _FRAME_BUFFER_MANAGER_H
 
 #include <pthread.h>
+#include "recedar.h"
 
 typedef struct VencInputBufferInfo VencInputBufferInfo;
 

@@ -86,9 +86,10 @@ int VideoEncSetParameter(VideoEncoder* pEncoder, VENC_INDEXTYPE indexType, void*
 // -RC status=implemented
 int VideoEncInit(VideoEncoder* pEncoder, VencBaseConfig* pConfig)
 {
+    // return _VideoEncInit(pEncoder, pConfig);
+
     VencContext* venc_ctx = (VencContext*)pEncoder;
     printf("ICVersion 0x%X\n", venc_ctx->ICVersion);
-    return _VideoEncInit(pEncoder, pConfig);
     if (venc_ctx == NULL || pConfig == NULL || venc_ctx->bInit) {
         fprintf(stderr, "[recedar] InitVideoEncoder, param is NULL\n");
         return -1;

@@ -8,6 +8,7 @@
 #include "venc_device.h"
 #include "h264_device.h"
 #include "FrameBufferManager.h"
+#include "isp.h"
 #include <stdlib.h>
 
 #ifdef RECEDAR_HOOKS_IMPLEMENT
@@ -49,6 +50,15 @@ RECEDAR_HOOKS_EXTERN int 			 		(*_h264_get_ve_capability)(h264_context* h264Cont
 RECEDAR_HOOKS_EXTERN FrameBufferManager* 	(*_FrameBufferManagerCreate)(int num);
 RECEDAR_HOOKS_EXTERN int   					(*_EncAdapterLockVideoEngine)(void);
 RECEDAR_HOOKS_EXTERN void  					(*_EncAdapterUnLockVideoEngine)(void);
+RECEDAR_HOOKS_EXTERN isp_context*			(*_IspCreate)();
+RECEDAR_HOOKS_EXTERN isp_context*			(*_SetIspBaseAddress)(isp_context *isp, int baseAddress);
+RECEDAR_HOOKS_EXTERN void* 					(*_EncAdapterVeGetBaseAddress)(void);
+RECEDAR_HOOKS_EXTERN int					(*_h264_check_capability)(h264_context *h264Context);
+RECEDAR_HOOKS_EXTERN int					(*_H264InitMemory)(h264_context *h264Context);
+RECEDAR_HOOKS_EXTERN int					(*_h264_init_regInfo)(h264_context *h264Context);
+RECEDAR_HOOKS_EXTERN void					(*_h264_init_rc_quene)(h264_context* h264Context);
+RECEDAR_HOOKS_EXTERN void					(*_h264_init_Poc)(h264_context* h264Context);
+RECEDAR_HOOKS_EXTERN int					(*_h264_init_sps_pps)(h264_context *h264Context);
 
 extern void recedar_hooks_init();
 
@@ -96,6 +106,15 @@ void recedar_hooks_init()
 	HOOK_FUNCTION(FrameBufferManagerCreate);
 	HOOK_FUNCTION(EncAdapterLockVideoEngine);
 	HOOK_FUNCTION(EncAdapterUnLockVideoEngine);
+	HOOK_FUNCTION(IspCreate);
+	HOOK_FUNCTION(SetIspBaseAddress);
+	HOOK_FUNCTION(EncAdapterVeGetBaseAddress);
+	HOOK_FUNCTION(h264_check_capability);
+	HOOK_FUNCTION(H264InitMemory);
+	HOOK_FUNCTION(h264_init_regInfo);
+	HOOK_FUNCTION(h264_init_rc_quene);
+	HOOK_FUNCTION(h264_init_Poc);
+	HOOK_FUNCTION(h264_init_sps_pps);
 #undef HOOK_FUNCTION
 }
 #endif

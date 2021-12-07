@@ -50,6 +50,42 @@ int h264_get_ve_capability(h264_context* h264Context)
 	return _h264_get_ve_capability(h264Context);
 }
 
+// -RC status=hooked
+int h264_check_capability(h264_context *h264Context)
+{
+	return _h264_check_capability(h264Context);
+}
+
+// -RC status=hooked
+int H264InitMemory(h264_context *h264Context)
+{
+	return _H264InitMemory(h264Context);
+}
+
+// -RC status=hooked
+int h264_init_regInfo(h264_context *h264Context)
+{
+	return _h264_init_regInfo(h264Context);
+}
+
+// -RC status=hooked
+void h264_init_rc_quene(h264_context *h264Context)
+{
+	return _h264_init_rc_quene(h264Context);
+}
+
+// -RC status=hooked
+void h264_init_Poc(h264_context *h264Context)
+{
+	return _h264_init_Poc(h264Context);
+}
+
+// -RC status=hooked
+int h264_init_sps_pps(h264_context *h264Context)
+{
+	return _h264_init_sps_pps(h264Context);
+}
+
 // -RC status=implemented
 void* H264EncOpen()
 {
@@ -69,10 +105,54 @@ void* H264EncOpen()
 	return h264Context;
 }
 
-// -RC status=hooked
+// -RC status=implemented
 int H264Init(void *handle,VencBaseConfig* pBaseConfig)
 {
-	return _H264Init(handle, pBaseConfig);
+	// return _H264Init(handle, pBaseConfig);
+	h264_context* h264Context = (h264_context*)handle;
+
+	int veBaseAddress;
+
+	veBaseAddress = (void*)EncAdapterVeGetBaseAddress();
+	h264Context->veBaseAddress = veBaseAddress;
+	h264Context->avcBaseAddress = veBaseAddress + 0xB00;
+	isp_context* isp = IspCreate();
+	if (isp == NULL) {
+	    fprintf(stderr, "[recedar] h264Context->isp is NULL\n");
+		return -1;
+	}
+	int ispBaseAddress = h264Context->veBaseAddress + 0xA00;
+	SetIspBaseAddress(isp, ispBaseAddress);
+	h264Context->isp = isp;
+	memcpy(&h264Context->baseConfig, pBaseConfig, sizeof(h264Context->baseConfig));
+	h264Context->isInputHeightDivid16 = (h264Context->baseConfig.nInputHeight & 15) == 0;
+	if (h264Context->rotation == 270 || h264Context->rotation == 90)
+	{
+		int nDstHeight = h264Context->baseConfig.nDstHeight;
+		h264Context->baseConfig.nDstHeight = h264Context->baseConfig.nDstWidth;
+		h264Context->baseConfig.nDstWidth = nDstHeight;
+	}
+    h264Context->dstWidthNormalized = (h264Context->baseConfig.nDstWidth + 15) & 0xFFFFFFF0;
+    h264Context->dstHeightNormalized = (h264Context->baseConfig.nDstHeight + 15) & 0xFFFFFFF0;
+    h264Context->inputWidthDiv16 = (h264Context->baseConfig.nInputWidth + 15) >> 4;
+    h264Context->inputHeightDiv16 = (h264Context->baseConfig.nInputHeight + 15) >> 4;
+    h264Context->dstWidthDiv16 = (h264Context->baseConfig.nDstWidth + 15) >> 4;
+    h264Context->dstHeightDiv16 = (h264Context->baseConfig.nDstHeight + 15) >> 4;
+    h264Context->lineWidth = h264Context->baseConfig.nStride;
+	if (h264_check_capability(h264Context) < 0) {
+		fprintf(stderr, "[recedar] h264_check_capability failed\n");
+		return -1;
+	}
+	if (H264InitMemory(h264Context) < 0) {
+		fprintf(stderr, "[recedar] H264InitMemory failed\n");
+		// TODO: BitStreamDestroy(h264Context->pBSMamager);
+		return -1;
+	}
+	h264_init_regInfo(h264Context);
+	h264_init_rc_quene(h264Context);
+	h264_init_Poc(h264Context);
+	h264_init_sps_pps(h264Context);
+	return 0;
 }
 
 // -RC status=hooked

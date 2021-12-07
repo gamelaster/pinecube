@@ -26,7 +26,7 @@ include $(CLEAR_VARS)
 #LOCAL_MODULE:= libcedarxcomponents
 #LOCAL_CFLAGS += $(CEDARX_EXT_CFLAGS)
 #LOCAL_LDFLAGS += $(CEDARX_TOP)/../CedarAndroidLib/$(CEDARX_PREBUILD_LIB_PATH)/libvencoder.so
-LOCAL_SRC_FILES := recedar.c venc_device.c EncAdapter.c h264_device.c
+LOCAL_SRC_FILES := recedar.c venc_device.c EncAdapter.c h264_device.c isp.c FrameBufferManager.c
 # I can't name it libvencoder because it would collide with original libvencoder :-(
 LOCAL_MODULE := recedar
 LOCAL_LDFLAGS += -ldl

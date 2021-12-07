@@ -24,3 +24,9 @@ void EncAdapterUnLockVideoEngine(void)
 {
 	return _EncAdapterUnLockVideoEngine();
 }
+
+// -RC status=not-needed-yet
+void* EncAdapterVeGetBaseAddress(void)
+{
+	return _EncAdapterVeGetBaseAddress();
+}
