@@ -1,3 +1,7 @@
+# WARNING: This is obsolete
+
+I made the latest CedarC blob working on mainline kernel, thus my working environment doesn't depend on CamDroid and old BSP anymore. Still, you can find a lot of information about CamDroid here, and also I might re-use this repo later when I will reverse G2D or other driver.
+
 # PineCube
 Notes, software and everything related to PineCube (mostly Video Encoding stuff)
 
